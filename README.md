@@ -12,6 +12,20 @@
 
 ---
 
+## 📸 Screenshots
+
+<div align="center">
+
+### Main Menu
+<img src="screenshots/vmc-menu.png" alt="VMC Main Menu showing all version managers" width="400">
+
+### Cheat Sheet View
+<img src="screenshots/vmc-cheatsheet.png" alt="VMC showing NVM commands with descriptions" width="400">
+
+</div>
+
+---
+
 ## ✨ Features
 
 - 🚀 **Quick Access**: Panel button ("VMC") for instant access to cheat sheets
