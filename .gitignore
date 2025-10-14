@@ -1,0 +1,24 @@
+# Build artifacts
+*.deb
+*.rpm
+*.zip
+*.tar.gz
+
+# Build directories
+build/
+dist/
+pkg/
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test files
+extension-simple.js
