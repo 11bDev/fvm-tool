@@ -5,214 +5,319 @@ import Clutter from 'gi://Clutter';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
+import GLib from 'gi://GLib';
+import Gio from 'gi://Gio';
 
 // Cheat sheet data
 const CHEAT_SHEETS = {
     'FVM': {
         title: 'Flutter Version Management (FVM)',
-        commands: [
-            { cmd: 'fvm install', desc: 'Install a Flutter version' },
-            { cmd: 'fvm use [version]', desc: 'Use a specific Flutter version' },
-            { cmd: 'fvm global [version]', desc: 'Set global Flutter version' },
-            { cmd: 'fvm list', desc: 'List installed Flutter versions' },
-            { cmd: 'fvm releases', desc: 'List available Flutter releases' },
-            { cmd: 'fvm remove [version]', desc: 'Remove a Flutter version' },
-            { cmd: 'fvm which', desc: 'Show current Flutter version path' },
-            { cmd: 'fvm doctor', desc: 'Run Flutter doctor' },
-            { cmd: 'fvm flutter [command]', desc: 'Run Flutter command with FVM' },
-            { cmd: 'fvm dart [command]', desc: 'Run Dart command with FVM' }
-        ]
-    },
-    'Mise': {
-        title: 'Runtime Version Manager (Mise)',
-        commands: [
-            { cmd: 'mise install', desc: 'Install tools from .mise.toml' },
-            { cmd: 'mise install [tool@version]', desc: 'Install specific tool version' },
-            { cmd: 'mise use [tool@version]', desc: 'Set tool version for project' },
-            { cmd: 'mise global [tool@version]', desc: 'Set global tool version' },
-            { cmd: 'mise list', desc: 'List installed tool versions' },
-            { cmd: 'mise list-all [tool]', desc: 'List all available versions' },
-            { cmd: 'mise current', desc: 'Show current tool versions' },
-            { cmd: 'mise outdated', desc: 'Show outdated tools' },
-            { cmd: 'mise upgrade', desc: 'Upgrade all tools to latest' },
-            { cmd: 'mise uninstall [tool@version]', desc: 'Uninstall tool version' },
-            { cmd: 'mise which [tool]', desc: 'Show path to tool executable' },
-            { cmd: 'mise exec [tool@version] -- [cmd]', desc: 'Execute command with specific version' }
-        ]
-    },
-    'Rbenv': {
-        title: 'Ruby Version Manager (Rbenv)',
-        commands: [
-            { cmd: 'rbenv install [version]', desc: 'Install Ruby version' },
-            { cmd: 'rbenv versions', desc: 'List installed Ruby versions' },
-            { cmd: 'rbenv version', desc: 'Show current Ruby version' },
-            { cmd: 'rbenv global [version]', desc: 'Set global Ruby version' },
-            { cmd: 'rbenv local [version]', desc: 'Set local Ruby version' },
-            { cmd: 'rbenv shell [version]', desc: 'Set shell Ruby version' },
-            { cmd: 'rbenv uninstall [version]', desc: 'Uninstall Ruby version' },
-            { cmd: 'rbenv rehash', desc: 'Rehash rbenv shims' },
-            { cmd: 'rbenv which [command]', desc: 'Show path to executable' },
-            { cmd: 'rbenv whence [command]', desc: 'List versions with command' },
-            { cmd: 'rbenv install --list', desc: 'List available Ruby versions' },
-            { cmd: 'rbenv exec [version] [command]', desc: 'Execute command with version' }
-        ]
-    },
-    'NVM': {
-        title: 'Node Version Manager (NVM)',
-        commands: [
-            { cmd: 'nvm install [version]', desc: 'Install Node.js version' },
-            { cmd: 'nvm install node', desc: 'Install latest Node.js version' },
-            { cmd: 'nvm install --lts', desc: 'Install latest LTS version' },
-            { cmd: 'nvm use [version]', desc: 'Use specific Node.js version' },
-            { cmd: 'nvm use node', desc: 'Use latest installed version' },
-            { cmd: 'nvm use --lts', desc: 'Use latest LTS version' },
-            { cmd: 'nvm ls', desc: 'List installed Node.js versions' },
-            { cmd: 'nvm ls-remote', desc: 'List available remote versions' },
-            { cmd: 'nvm current', desc: 'Show current Node.js version' },
-            { cmd: 'nvm alias default [version]', desc: 'Set default Node.js version' },
-            { cmd: 'nvm uninstall [version]', desc: 'Uninstall Node.js version' },
-            { cmd: 'nvm which [version]', desc: 'Show path to Node.js executable' }
-        ]
-    },
-    'pyenv': {
-        title: 'Python Version Manager (pyenv)',
-        commands: [
-            { cmd: 'pyenv install [version]', desc: 'Install Python version' },
-            { cmd: 'pyenv install --list', desc: 'List available Python versions' },
-            { cmd: 'pyenv versions', desc: 'List installed Python versions' },
-            { cmd: 'pyenv version', desc: 'Show current Python version' },
-            { cmd: 'pyenv global [version]', desc: 'Set global Python version' },
-            { cmd: 'pyenv local [version]', desc: 'Set local Python version' },
-            { cmd: 'pyenv shell [version]', desc: 'Set shell Python version' },
-            { cmd: 'pyenv uninstall [version]', desc: 'Uninstall Python version' },
-            { cmd: 'pyenv rehash', desc: 'Rehash pyenv shims' },
-            { cmd: 'pyenv which [command]', desc: 'Show path to executable' },
-            { cmd: 'pyenv whence [command]', desc: 'List versions with command' },
-            { cmd: 'pyenv virtualenv [version] [name]', desc: 'Create virtual environment' }
-        ]
-    },
-    'SDKMAN': {
-        title: 'Software Development Kit Manager (SDKMAN!)',
-        commands: [
-            { cmd: 'sdk install [candidate] [version]', desc: 'Install SDK version' },
-            { cmd: 'sdk install [candidate]', desc: 'Install latest stable version' },
-            { cmd: 'sdk use [candidate] [version]', desc: 'Use SDK version in current shell' },
-            { cmd: 'sdk default [candidate] [version]', desc: 'Set default SDK version' },
-            { cmd: 'sdk list [candidate]', desc: 'List available versions' },
-            { cmd: 'sdk list', desc: 'List all available SDKs' },
-            { cmd: 'sdk current [candidate]', desc: 'Show current SDK version' },
-            { cmd: 'sdk current', desc: 'Show all current versions' },
-            { cmd: 'sdk upgrade [candidate]', desc: 'Upgrade SDK to latest version' },
-            { cmd: 'sdk uninstall [candidate] [version]', desc: 'Uninstall SDK version' },
-            { cmd: 'sdk version', desc: 'Show SDKMAN version' },
-            { cmd: 'sdk update', desc: 'Update SDKMAN itself' }
+        categories: [
+            {
+                name: 'Installation & Setup',
+                commands: [
+                    { cmd: 'fvm install [version]', desc: 'Install a Flutter SDK version' },
+                    { cmd: 'fvm install --setup', desc: 'Install and run Flutter setup' },
+                ]
+            },
+            {
+                name: 'Version Management',
+                commands: [
+                    { cmd: 'fvm use [version]', desc: 'Set Flutter version for project' },
+                    { cmd: 'fvm use --force', desc: 'Set version, skip validation checks' },
+                    { cmd: 'fvm use --pin', desc: 'Pin latest release of a channel' },
+                    { cmd: 'fvm use --flavor [name]', desc: 'Set version for specific flavor' },
+                    { cmd: 'fvm use --skip-setup', desc: 'Set version, skip SDK setup' },
+                    { cmd: 'fvm use --skip-pub-get', desc: 'Set version, skip pub get' },
+                    { cmd: 'fvm global [version]', desc: 'Set global Flutter version' },
+                    { cmd: 'fvm global --force', desc: 'Set global, skip validation' },
+                    { cmd: 'fvm global --unlink', desc: 'Remove global version setting' },
+                ]
+            },
+            {
+                name: 'Listing & Information',
+                commands: [
+                    { cmd: 'fvm list', desc: 'List installed Flutter versions' },
+                    { cmd: 'fvm ls', desc: 'List installed versions (alias)' },
+                    { cmd: 'fvm releases', desc: 'Show available Flutter releases' },
+                    { cmd: 'fvm releases --channel beta', desc: 'Show beta channel releases' },
+                    { cmd: 'fvm releases --channel dev', desc: 'Show dev channel releases' },
+                    { cmd: 'fvm releases --channel all', desc: 'Show all channel releases' },
+                ]
+            },
+            {
+                name: 'Running Commands',
+                commands: [
+                    { cmd: 'fvm flutter [command]', desc: 'Run Flutter command with FVM' },
+                    { cmd: 'fvm dart [command]', desc: 'Run Dart command with FVM' },
+                    { cmd: 'fvm spawn [ver] [cmd]', desc: 'Run command with specific version' },
+                    { cmd: 'fvm exec [command]', desc: 'Execute with project SDK' },
+                    { cmd: 'fvm flavor [name] [cmd]', desc: 'Run with flavor-specific version' },
+                ]
+            },
+            {
+                name: 'Removal & Cleanup',
+                commands: [
+                    { cmd: 'fvm remove [version]', desc: 'Remove a Flutter version' },
+                    { cmd: 'fvm remove --all', desc: 'Remove all cached versions' },
+                    { cmd: 'fvm destroy', desc: 'Remove entire FVM cache' },
+                    { cmd: 'fvm destroy --force', desc: 'Destroy cache without confirmation' },
+                ]
+            },
+            {
+                name: 'Configuration',
+                commands: [
+                    { cmd: 'fvm config', desc: 'View current configuration' },
+                    { cmd: 'fvm config --cache-path [p]', desc: 'Set custom cache directory' },
+                    { cmd: 'fvm config --flutter-url [url]', desc: 'Set Flutter repository URL' },
+                    { cmd: 'fvm config --use-git-cache', desc: 'Enable Git cache' },
+                    { cmd: 'fvm config --no-use-git-cache', desc: 'Disable Git cache' },
+                    { cmd: 'fvm config --git-cache-path [p]', desc: 'Set Git cache directory' },
+                    { cmd: 'fvm config --update-check', desc: 'Enable update notifications' },
+                    { cmd: 'fvm config --no-update-check', desc: 'Disable update notifications' },
+                ]
+            },
+            {
+                name: 'Fork Management',
+                commands: [
+                    { cmd: 'fvm fork add [alias] [url]', desc: 'Add custom Flutter fork' },
+                    { cmd: 'fvm fork remove [alias]', desc: 'Remove fork alias' },
+                    { cmd: 'fvm fork list', desc: 'List configured forks' },
+                ]
+            },
+            {
+                name: 'Diagnostics',
+                commands: [
+                    { cmd: 'fvm doctor', desc: 'Show FVM environment diagnostics' },
+                ]
+            },
+            {
+                name: 'JSON API',
+                commands: [
+                    { cmd: 'fvm api list', desc: 'Get cached versions as JSON' },
+                    { cmd: 'fvm api list --skip-size-calc', desc: 'List without size calculation' },
+                    { cmd: 'fvm api releases', desc: 'Get available releases as JSON' },
+                    { cmd: 'fvm api releases --limit [n]', desc: 'Limit release results' },
+                    { cmd: 'fvm api releases --filter-ch [c]', desc: 'Filter releases by channel' },
+                    { cmd: 'fvm api context', desc: 'Get FVM environment as JSON' },
+                    { cmd: 'fvm api project', desc: 'Get project config as JSON' },
+                    { cmd: 'fvm api project --path [p]', desc: 'Get config for specific path' },
+                    { cmd: 'fvm api [cmd] --compress', desc: 'Output compact JSON' },
+                ]
+            }
         ]
     }
 };
 
-const FVMCheatSheetIndicator = GObject.registerClass(
-class FVMCheatSheetIndicator extends PanelMenu.Button {
+const FVMToolIndicator = GObject.registerClass(
+class FVMToolIndicator extends PanelMenu.Button {
     _init() {
-        super._init(0.0, 'FVM Cheat Sheets');
+        super._init(0.0, 'FVMT - FVM Tool');
         
         // Create panel button with text label for better visibility
         this.add_child(new St.Label({
-            text: 'VMC',
+            text: 'FVMT',
             y_align: Clutter.ActorAlign.CENTER,
             style_class: 'system-status-icon'
         }));
         
-        // Create main menu items
-        this._createMenuItems();
+        // Connect to menu open event to refresh content
+        this.menu.connect('open-state-changed', (menu, open) => {
+            if (open) {
+                this._showCheatSheet('FVM');
+            }
+        });
+        
+        // Show FVM cheat sheet initially
+        this._showCheatSheet('FVM');
     }
     
-    _createMenuItems() {
-        // Add main menu items for each tool
-        Object.keys(CHEAT_SHEETS).forEach(tool => {
-            const menuItem = new PopupMenu.PopupMenuItem(tool);
-            menuItem.connect('activate', () => this._showCheatSheet(tool));
-            this.menu.addMenuItem(menuItem);
-        });
+    _getGlobalVersion() {
+        try {
+            // Try to read the FVM global version symlink
+            const homeDir = GLib.get_home_dir();
+            const globalPath = `${homeDir}/fvm/default`;
+            
+            // Check if the symlink exists
+            const file = Gio.File.new_for_path(globalPath);
+            if (file.query_exists(null)) {
+                const symlinkInfo = file.query_info('standard::symlink-target', Gio.FileQueryInfoFlags.NONE, null);
+                const target = symlinkInfo.get_symlink_target();
+                
+                // Extract version from symlink target (e.g., /home/user/fvm/versions/3.19.0 -> 3.19.0)
+                if (target) {
+                    const parts = target.split('/');
+                    const version = parts[parts.length - 1];
+                    return version;
+                }
+            }
+        } catch (e) {
+            // Silently fail if we can't read the global version
+        }
+        return null;
+    }
+    
+    _getFlutterVersion(versionPath) {
+        try {
+            // Try to read the Flutter version from version file
+            const versionFile = Gio.File.new_for_path(`${versionPath}/version`);
+            if (versionFile.query_exists(null)) {
+                const [success, contents] = versionFile.load_contents(null);
+                if (success) {
+                    const version = new TextDecoder().decode(contents).trim();
+                    return version;
+                }
+            }
+        } catch (e) {
+            // Silently fail
+        }
+        return null;
+    }
+    
+    _getInstalledVersions() {
+        const versions = [];
+        try {
+            const homeDir = GLib.get_home_dir();
+            const versionsPath = `${homeDir}/fvm/versions`;
+            
+            const versionsDir = Gio.File.new_for_path(versionsPath);
+            if (versionsDir.query_exists(null)) {
+                const enumerator = versionsDir.enumerate_children(
+                    'standard::name,standard::type',
+                    Gio.FileQueryInfoFlags.NONE,
+                    null
+                );
+                
+                let fileInfo;
+                while ((fileInfo = enumerator.next_file(null)) !== null) {
+                    if (fileInfo.get_file_type() === Gio.FileType.DIRECTORY) {
+                        const versionName = fileInfo.get_name();
+                        const versionPath = `${versionsPath}/${versionName}`;
+                        const flutterVersion = this._getFlutterVersion(versionPath);
+                        
+                        // Store both the name and actual version
+                        versions.push({
+                            name: versionName,
+                            version: flutterVersion
+                        });
+                    }
+                }
+            }
+        } catch (e) {
+            // Silently fail if we can't read versions
+        }
+        
+        // Sort versions by name
+        versions.sort((a, b) => a.name.localeCompare(b.name));
+        return versions;
     }
     
     _showCheatSheet(tool) {
         const cheatSheet = CHEAT_SHEETS[tool];
         
-        // Clear existing submenu items
+        // Clear existing menu items
         this.menu.removeAll();
         
-        // Add back button
-        const backItem = new PopupMenu.PopupMenuItem('← Back to Tools');
-        backItem.connect('activate', () => this._showMainMenu());
-        this.menu.addMenuItem(backItem);
+        // Add global version info at the top
+        const globalVersion = this._getGlobalVersion();
+        const installedVersions = this._getInstalledVersions();
         
-        // Add separator
-        this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
-        
-        // Add title
-        const titleItem = new PopupMenu.PopupMenuItem(cheatSheet.title);
-        titleItem.actor.style = 'font-weight: bold; font-size: 1.1em;';
-        titleItem.reactive = false;
-        this.menu.addMenuItem(titleItem);
-        
-        // Add separator
-        this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
-        
-        // Add command items
-        cheatSheet.commands.forEach(command => {
-            // Create container for command and description
-            const item = new PopupMenu.PopupBaseMenuItem();
+        if (globalVersion) {
+            // Find the actual Flutter version for the global
+            const globalVersionObj = installedVersions.find(v => v.name === globalVersion);
+            let displayText = `Global: ${globalVersion}`;
+            if (globalVersionObj && globalVersionObj.version) {
+                displayText = `Global: ${globalVersion} (${globalVersionObj.version})`;
+            }
             
-            // Create vertical box layout
-            const vbox = new St.BoxLayout({
-                vertical: true,
-                style_class: 'popup-menu-item-content'
-            });
-            
-            // Add command label
-            const cmdLabel = new St.Label({
-                text: command.cmd,
-                style_class: 'fvm-cs-command',
-                style: 'font-family: monospace; font-weight: bold;'
-            });
-            vbox.add_child(cmdLabel);
-            
-            // Add description label
-            const descLabel = new St.Label({
-                text: command.desc,
-                style_class: 'fvm-cs-description',
-                style: 'font-size: 0.85em; color: #888; margin-top: 2px;'
-            });
-            vbox.add_child(descLabel);
-            
-            item.add_child(vbox);
-            
-            // Add click handler to copy command to clipboard
-            item.connect('activate', () => {
-                const clipboard = St.Clipboard.get_default();
-                clipboard.set_text(St.ClipboardType.CLIPBOARD, command.cmd);
-                Main.notify('FVM-CS', `Copied: ${command.cmd}`);
-            });
-            
-            this.menu.addMenuItem(item);
-        });
-    }
-    
-    _showMainMenu() {
-        // Properly destroy all menu items
-        let items = this.menu._getMenuItems();
-        for (let item of items) {
-            item.destroy();
+            const globalItem = new PopupMenu.PopupMenuItem(displayText);
+            globalItem.reactive = false;
+            this.menu.addMenuItem(globalItem);
         }
         
-        // Recreate main menu
-        this._createMenuItems();
+        // Add installed versions submenu
+        if (installedVersions.length > 0) {
+            const versionsSubmenu = new PopupMenu.PopupSubMenuMenuItem('Installed Versions');
+            
+            installedVersions.forEach(versionObj => {
+                const isGlobal = versionObj.name === globalVersion;
+                let displayText = versionObj.name;
+                
+                // Add actual version if available
+                if (versionObj.version) {
+                    displayText = `${versionObj.name} (${versionObj.version})`;
+                }
+                
+                // Add checkmark for global version
+                if (isGlobal) {
+                    displayText += ' ✓';
+                }
+                
+                const versionItem = new PopupMenu.PopupMenuItem(displayText);
+                versionItem.reactive = false;
+                versionsSubmenu.menu.addMenuItem(versionItem);
+            });
+            
+            this.menu.addMenuItem(versionsSubmenu);
+        }
+        
+        // Add separator
+        if (globalVersion || installedVersions.length > 0) {
+            this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+        }
+        
+        // Add categorized commands as submenus
+        cheatSheet.categories.forEach(category => {
+            // Create submenu for each category
+            const categorySubmenu = new PopupMenu.PopupSubMenuMenuItem(category.name);
+            
+            // Add commands in this category
+            category.commands.forEach(command => {
+                // Create container for command and description
+                const item = new PopupMenu.PopupBaseMenuItem();
+                
+                // Create vertical box layout
+                const vbox = new St.BoxLayout({
+                    vertical: true,
+                    style_class: 'popup-menu-item-content'
+                });
+                
+                // Add command label
+                const cmdLabel = new St.Label({
+                    text: command.cmd,
+                    style_class: 'fvm-cs-command',
+                    style: 'font-family: monospace;'
+                });
+                vbox.add_child(cmdLabel);
+                
+                // Add description label
+                const descLabel = new St.Label({
+                    text: command.desc,
+                    style_class: 'fvm-cs-description',
+                    style: 'font-size: 0.85em; opacity: 0.7; margin-top: 2px;'
+                });
+                vbox.add_child(descLabel);
+                
+                item.add_child(vbox);
+                
+                // Add click handler to copy command to clipboard
+                item.connect('activate', () => {
+                    const clipboard = St.Clipboard.get_default();
+                    clipboard.set_text(St.ClipboardType.CLIPBOARD, command.cmd);
+                    Main.notify('FVMT', `Copied: ${command.cmd}`);
+                });
+                
+                categorySubmenu.menu.addMenuItem(item);
+            });
+            
+            this.menu.addMenuItem(categorySubmenu);
+        });
     }
 });
 
-export default class FVMCheatSheetExtension extends Extension {
+export default class FVMToolExtension extends Extension {
     enable() {
-        this._indicator = new FVMCheatSheetIndicator();
+        this._indicator = new FVMToolIndicator();
         Main.panel.addToStatusArea(this.uuid, this._indicator);
     }
     

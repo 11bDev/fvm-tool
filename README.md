@@ -1,12 +1,12 @@
-# VMC - Version Manager Cheat Sheets
+# FVMT - FVM Tool
 
 <div align="center">
 
-**Quick access to cheat sheets for popular version management tools**
+**Quick access to FVM (Flutter Version Management) commands for GNOME Shell**
 
 [![GNOME Shell](https://img.shields.io/badge/GNOME%20Shell-40%2B-blue?logo=gnome)](https://www.gnome.org/)
 [![License](https://img.shields.io/badge/license-GPL--3.0-green)](LICENSE)
-[![Release](https://img.shields.io/github/v/release/tim/vmc-gnome-extension)](https://github.com/tim/vmc-gnome-extension/releases)
+[![Release](https://img.shields.io/github/v/release/11bDev/fvm-tool)](https://github.com/11bDev/fvm-tool/releases)
 
 </div>
 
@@ -16,11 +16,11 @@
 
 <div align="center">
 
-### Main Menu
-<img src="screenshots/vmc-menu.png" alt="VMC Main Menu showing all version managers" width="400">
+### Main Menu with Version Info
+*Quick access to your FVM global version, installed versions, and all commands*
 
-### Cheat Sheet View
-<img src="screenshots/vmc-cheatsheet.png" alt="VMC showing NVM commands with descriptions" width="400">
+### Command Categories
+*Organized categories with all FVM commands - click to expand and copy*
 
 </div>
 
@@ -28,13 +28,16 @@
 
 ## ✨ Features
 
-- 🚀 **Quick Access**: Panel button ("VMC") for instant access to cheat sheets
-- 📋 **One-Click Copy**: Click any command to copy it to your clipboard
-- 🔧 **Six Popular Tools**: FVM, Mise, Rbenv, NVM, pyenv, and SDKMAN!
-- 🎨 **Clean UI**: Simple, intuitive interface that fits perfectly with GNOME design
+- 🚀 **Quick Access**: Panel button ("FVMT") for instant access to FVM commands
+- 📊 **Version Display**: See your global FVM version at a glance
+- 📋 **Installed Versions**: View all installed Flutter versions in a submenu
+- � **Organized Categories**: Commands grouped into logical categories
+- 🖱️ **One-Click Copy**: Click any command to copy it to your clipboard
+- 🎨 **Theme Support**: Automatically matches your GNOME theme (light/dark mode)
 - 📝 **Command Descriptions**: Each command includes a helpful description
 - 📱 **Notifications**: Visual feedback when commands are copied
-- ⚡ **Lightweight**: Minimal resource usage
+- ⚡ **Live Updates**: Menu refreshes automatically to show newly installed versions
+- 💡 **Comprehensive**: All 51 FVM commands covered
 
 ## 📦 Installation
 
@@ -44,14 +47,14 @@
 
 **For Debian/Ubuntu:**
 ```bash
-wget https://github.com/tim/vmc-gnome-extension/releases/latest/download/gnome-shell-extension-vmc.deb
-sudo dpkg -i gnome-shell-extension-vmc.deb
+wget https://github.com/11bDev/fvm-tool/releases/latest/download/gnome-shell-extension-fvmt.deb
+sudo dpkg -i gnome-shell-extension-fvmt.deb
 ```
 
 **For Fedora/RHEL:**
 ```bash
-wget https://github.com/tim/vmc-gnome-extension/releases/latest/download/gnome-shell-extension-vmc.rpm
-sudo rpm -i gnome-shell-extension-vmc.rpm
+wget https://github.com/11bDev/fvm-tool/releases/latest/download/gnome-shell-extension-fvmt.rpm
+sudo rpm -i gnome-shell-extension-fvmt.rpm
 ```
 
 After installation:
@@ -65,13 +68,13 @@ After installation:
 
 1. Download the latest release:
    ```bash
-   wget https://github.com/tim/vmc-gnome-extension/releases/latest/download/vmc-extension.zip
+   wget https://github.com/11bDev/fvm-tool/releases/latest/download/fvmt-extension.zip
    ```
 
 2. Extract to your GNOME extensions directory:
    ```bash
    mkdir -p ~/.local/share/gnome-shell/extensions/fvm-cs@tim.dev
-   unzip vmc-extension.zip -d ~/.local/share/gnome-shell/extensions/fvm-cs@tim.dev/
+   unzip fvmt-extension.zip -d ~/.local/share/gnome-shell/extensions/fvm-cs@tim.dev/
    ```
 
 3. Restart GNOME Shell:
@@ -86,8 +89,8 @@ After installation:
 ### From Source
 
 ```bash
-git clone https://github.com/tim/vmc-gnome-extension.git
-cd vmc-gnome-extension
+git clone https://github.com/11bDev/fvm-tool.git
+cd fvm-tool
 mkdir -p ~/.local/share/gnome-shell/extensions/fvm-cs@tim.dev
 cp -r extension.js metadata.json stylesheet.css ~/.local/share/gnome-shell/extensions/fvm-cs@tim.dev/
 gnome-extensions enable fvm-cs@tim.dev
@@ -97,7 +100,62 @@ Then restart GNOME Shell (log out/in on Wayland, or `Alt+F2` → `r` on X11).
 
 ## 🚀 Usage
 
-1. **Access the Extension**: Look for "VMC" in your top panel (usually on the right side)
+1. **Access the Extension**: Look for "FVMT" in your top panel (usually on the right side)
+2. **View Version Info**: See your global FVM version at the top of the menu
+3. **Check Installed Versions**: Expand the "Installed Versions" submenu to see all Flutter versions
+4. **Browse Commands**: Expand any category to see related commands
+5. **Copy Commands**: Click any command to copy it to your clipboard
+6. **Use the Command**: Paste in your terminal and modify as needed
+
+## 📚 Command Categories
+
+The extension organizes all 51 FVM commands into these categories:
+
+- **Installation & Setup** - Install Flutter SDK versions
+- **Version Management** - Set and manage versions for projects
+- **Listing & Information** - View available and installed versions
+- **Running Commands** - Execute Flutter/Dart commands with FVM
+- **Removal & Cleanup** - Remove versions and clean cache
+- **Configuration** - Manage FVM settings
+- **Fork Management** - Work with custom Flutter repositories
+- **Diagnostics** - Troubleshoot FVM setup
+- **JSON API** - Integration with other tools
+
+## 🔧 Requirements
+
+- GNOME Shell 40 or later
+- FVM installed (optional - extension works without it but won't show version info)
+
+## 🛠️ Development
+
+See [INSTALL.md](INSTALL.md) for development setup and testing instructions.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📄 License
+
+This project is licensed under the GPL-3.0 License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Credits
+
+- Built for the Flutter development community
+- Uses [FVM (Flutter Version Management)](https://fvm.app/) by Leo Farias
+
+## 📞 Support
+
+- 🐛 [Report Issues](https://github.com/11bDev/fvm-tool/issues)
+- 💡 [Request Features](https://github.com/11bDev/fvm-tool/issues/new)
+- 📖 [Documentation](https://github.com/11bDev/fvm-tool)
+
+---
+
+<div align="center">
+
+Made with ❤️ for Flutter developers
+
+</div>
 2. **Select a Tool**: Click "VMC" to see the menu with all version managers
 3. **View Cheat Sheet**: Click on any tool (FVM, Mise, Rbenv, NVM, pyenv, SDKMAN!) to see its commands
 4. **Copy Commands**: Click on any command to copy it to your clipboard - you'll see a notification

@@ -1,16 +1,16 @@
 #!/bin/bash
 set -e
 
-# VMC GNOME Extension - DEB Package Builder
+# FVMT GNOME Extension - DEB Package Builder
 # This script builds a .deb package for Debian/Ubuntu systems
 
-VERSION="1.0.0"
-PACKAGE_NAME="gnome-shell-extension-vmc"
+VERSION="2.0.0"
+PACKAGE_NAME="gnome-shell-extension-fvmt"
 EXTENSION_UUID="fvm-cs@tim.dev"
 BUILD_DIR="build/deb"
 INSTALL_DIR="usr/share/gnome-shell/extensions/${EXTENSION_UUID}"
 
-echo "Building DEB package for VMC GNOME Extension v${VERSION}..."
+echo "Building DEB package for FVMT GNOME Extension v${VERSION}..."
 
 # Clean previous build
 rm -rf ${BUILD_DIR}
@@ -32,16 +32,16 @@ Priority: optional
 Architecture: all
 Depends: gnome-shell (>= 40)
 Maintainer: Tim <tim@example.com>
-Description: Version Manager Cheat Sheets for GNOME Shell
- Quick access panel extension that provides cheat sheets for popular
- version management tools including FVM, Mise, Rbenv, NVM, pyenv, and SDKMAN!
+Description: FVM Tool - Flutter Version Management Cheat Sheet for GNOME Shell
+ Quick access panel extension that provides a cheat sheet for FVM
+ (Flutter Version Management) commands.
  .
  Features:
   - One-click command copying to clipboard
-  - Support for 6 popular version managers
+  - FVM command reference with descriptions
   - Clean, intuitive GNOME-style interface
-  - Helpful command descriptions
-Homepage: https://github.com/tim/vmc-gnome-extension
+  - Lightweight and focused on FVM
+Homepage: https://github.com/11bDev/fvm-tool
 EOF
 
 # Create postinst script
@@ -49,7 +49,7 @@ cat > ${BUILD_DIR}/DEBIAN/postinst << 'EOF'
 #!/bin/bash
 set -e
 
-echo "VMC GNOME Extension installed successfully!"
+echo "FVMT GNOME Extension installed successfully!"
 echo "Please log out and log back in, then enable the extension with:"
 echo "  gnome-extensions enable fvm-cs@tim.dev"
 

@@ -1,14 +1,14 @@
 #!/bin/bash
 set -e
 
-# VMC GNOME Extension - Release Package Builder
+# FVMT GNOME Extension - Release Package Builder
 # This script creates a ZIP file for direct installation
 
-VERSION="1.0.0"
-PACKAGE_NAME="vmc-extension"
+VERSION="2.0.0"
+PACKAGE_NAME="fvmt-extension"
 EXTENSION_UUID="fvm-cs@tim.dev"
 
-echo "Creating release ZIP for VMC GNOME Extension v${VERSION}..."
+echo "Creating release ZIP for FVMT GNOME Extension v${VERSION}..."
 
 # Create a temporary directory
 TEMP_DIR=$(mktemp -d)

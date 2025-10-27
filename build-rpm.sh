@@ -1,18 +1,18 @@
 #!/bin/bash
 set -e
 
-# VMC GNOME Extension - RPM Package Builder
+# FVMT GNOME Extension - RPM Package Builder
 # This script builds a .rpm package for Fedora/RHEL systems
 
-VERSION="1.0.0"
+VERSION="2.0.0"
 RELEASE="1"
-PACKAGE_NAME="gnome-shell-extension-vmc"
+PACKAGE_NAME="gnome-shell-extension-fvmt"
 EXTENSION_UUID="fvm-cs@tim.dev"
 BUILD_DIR="build/rpm"
 RPM_BUILD_ROOT="${BUILD_DIR}/BUILDROOT"
 INSTALL_DIR="usr/share/gnome-shell/extensions/${EXTENSION_UUID}"
 
-echo "Building RPM package for VMC GNOME Extension v${VERSION}..."
+echo "Building RPM package for FVMT GNOME Extension v${VERSION}..."
 
 # Clean previous build
 rm -rf ${BUILD_DIR}
@@ -30,21 +30,21 @@ cat > ${BUILD_DIR}/SPECS/${PACKAGE_NAME}.spec << EOF
 Name:           ${PACKAGE_NAME}
 Version:        ${VERSION}
 Release:        ${RELEASE}%{?dist}
-Summary:        Version Manager Cheat Sheets for GNOME Shell
+Summary:        FVM Tool - Flutter Version Management Cheat Sheet for GNOME Shell
 License:        GPL-3.0
-URL:            https://github.com/tim/vmc-gnome-extension
+URL:            https://github.com/11bDev/fvm-tool
 BuildArch:      noarch
 Requires:       gnome-shell >= 40
 
 %description
-Quick access panel extension that provides cheat sheets for popular
-version management tools including FVM, Mise, Rbenv, NVM, pyenv, and SDKMAN!
+Quick access panel extension that provides a cheat sheet for FVM
+(Flutter Version Management) commands.
 
 Features:
 - One-click command copying to clipboard
-- Support for 6 popular version managers
+- FVM command reference with descriptions
 - Clean, intuitive GNOME-style interface
-- Helpful command descriptions
+- Lightweight and focused on FVM
 
 %install
 mkdir -p %{buildroot}/${INSTALL_DIR}
@@ -56,14 +56,14 @@ cp -r ${RPM_BUILD_ROOT}/${INSTALL_DIR}/* %{buildroot}/${INSTALL_DIR}/
 /${INSTALL_DIR}/stylesheet.css
 
 %post
-echo "VMC GNOME Extension installed successfully!"
+echo "FVMT GNOME Extension installed successfully!"
 echo "Please log out and log back in, then enable the extension with:"
 echo "  gnome-extensions enable fvm-cs@tim.dev"
 
 %changelog
 * $(date +"%a %b %d %Y") Tim <tim@example.com> - ${VERSION}-${RELEASE}
-- Initial release
-- Support for FVM, Mise, Rbenv, NVM, pyenv, and SDKMAN!
+- FVM Tool release
+- Comprehensive FVM command reference
 EOF
 
 # Build the RPM

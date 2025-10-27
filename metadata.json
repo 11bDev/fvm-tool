@@ -1,8 +1,8 @@
 {
-  "name": "FVM-CS (Flutter, Mise, Rbenv Cheat Sheets)",
-  "description": "Quick access to cheat sheets for FVM, Mise, and Rbenv command line tools",
+  "name": "FVMT - FVM Tool",
+  "description": "Quick access to FVM (Flutter Version Management) command cheat sheet",
   "uuid": "fvm-cs@tim.dev",
   "shell-version": ["40", "41", "42", "43", "44", "45", "46", "47", "48", "49"],
-  "version": 1,
-  "url": "https://github.com/tim/fvm-cs-extension"
+  "version": 2,
+  "url": "https://github.com/11bDev/fvm-tool"
 }

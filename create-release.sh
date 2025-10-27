@@ -1,13 +1,13 @@
 #!/bin/bash
-# VMC GNOME Extension - GitHub Setup and Release Script
+# FVMT GNOME Extension - GitHub Setup and Release Script
 # Run this script after authenticating with GitHub CLI
 
 set -e
 
-VERSION="1.0.0"
+VERSION="2.0.0"
 
 echo "=========================================="
-echo "VMC GNOME Extension - GitHub Setup"
+echo "FVMT GNOME Extension - GitHub Setup"
 echo "=========================================="
 echo ""
 
@@ -28,10 +28,10 @@ echo ""
 # Create repository if it doesn't exist
 if ! gh repo view &>/dev/null; then
     echo "Creating GitHub repository..."
-    gh repo create vmc-gnome-extension \
+    gh repo create fvm-tool \
         --public \
         --source=. \
-        --description "Quick access to version manager cheat sheets for GNOME Shell" \
+        --description "FVMT - Quick access to FVM (Flutter Version Management) cheat sheet for GNOME Shell" \
         --push
     echo "✓ Repository created and code pushed"
 else
@@ -50,48 +50,42 @@ echo "Creating GitHub release v${VERSION}..."
 
 # Create release with packages
 gh release create "v${VERSION}" \
-    --title "VMC v${VERSION} - Version Manager Cheat Sheets" \
-    --notes "## 🎉 VMC GNOME Extension v${VERSION}
+    --title "FVMT v${VERSION} - FVM Tool" \
+    --notes "## 🎉 FVMT GNOME Extension v${VERSION}
 
 ### Features
-- ✨ Quick access to cheat sheets for 6 popular version managers
+- ✨ Quick access to FVM (Flutter Version Management) cheat sheet
 - 📋 One-click command copying to clipboard
 - 🎨 Clean GNOME-style interface
-- 📝 Helpful command descriptions for each tool
+- 📝 Helpful command descriptions
+- ⚡ Lightweight and focused on FVM
 
-### Supported Version Managers
-- **FVM** - Flutter Version Management
-- **Mise** - Runtime Version Manager
-- **Rbenv** - Ruby Version Manager
-- **NVM** - Node.js Version Manager
-- **pyenv** - Python Version Manager
-- **SDKMAN!** - Java/JVM SDK Manager
+### What's New in v2.0.0
+- Simplified to focus exclusively on FVM
+- Renamed from VMC to FVMT (FVM Tool)
+- Direct access to FVM commands without nested menus
+- Updated panel button to show 'FVMT'
+- Improved performance with streamlined UI
 
 ### Installation
 
 **For Debian/Ubuntu:**
 \`\`\`bash
-wget https://github.com/\$(gh repo view --json nameWithOwner -q .nameWithOwner)/releases/download/v${VERSION}/gnome-shell-extension-vmc_${VERSION}_all.deb
-sudo dpkg -i gnome-shell-extension-vmc_${VERSION}_all.deb
+wget https://github.com/\$(gh repo view --json nameWithOwner -q .nameWithOwner)/releases/download/v${VERSION}/gnome-shell-extension-fvmt_${VERSION}_all.deb
+sudo dpkg -i gnome-shell-extension-fvmt_${VERSION}_all.deb
 gnome-extensions enable fvm-cs@tim.dev
 \`\`\`
 
 **For other distributions:**
 \`\`\`bash
-wget https://github.com/\$(gh repo view --json nameWithOwner -q .nameWithOwner)/releases/download/v${VERSION}/vmc-extension.zip
-unzip vmc-extension.zip -d ~/.local/share/gnome-shell/extensions/
+wget https://github.com/\$(gh repo view --json nameWithOwner -q .nameWithOwner)/releases/download/v${VERSION}/fvmt-extension.zip
+unzip fvmt-extension.zip -d ~/.local/share/gnome-shell/extensions/
 gnome-extensions enable fvm-cs@tim.dev
 \`\`\`
 
-### What's Changed
-- Initial release with 6 version manager cheat sheets
-- DEB package support for Debian/Ubuntu
-- ZIP package for manual installation
-- Comprehensive README and documentation
-
 **Full Changelog**: https://github.com/\$(gh repo view --json nameWithOwner -q .nameWithOwner)/commits/v${VERSION}" \
-    vmc-extension.zip \
-    gnome-shell-extension-vmc_${VERSION}_all.deb
+    fvmt-extension.zip \
+    gnome-shell-extension-fvmt_${VERSION}_all.deb
 
 echo ""
 echo "=========================================="
